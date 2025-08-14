@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel to Mars - Mission 2025</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet" />
+  
+  <!-- ✅ Latest EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init({
+        publicKey: "aUXBYEaYrgbBuaRVb" // Your Public Key
+      });
+    })();
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(120deg, #1b2735 0%, #090a0f 100%);
+      min-height: 100vh;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    header {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      padding: 32px 0 16px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 2.5rem; color: #ffcc70; margin: 0; letter-spacing: 1px; }
+    nav { margin-top: 12px; }
+    nav a { margin: 0 18px; text-decoration: none; color: #ff7e5f; font-weight: 600; }
+    nav a:hover { color: #feb47b; }
+    main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 60px 24px; }
+    .card { background: rgba(255,255,255,0.07); border-radius: 22px; box-shadow: 0 6px 42px rgba(0,0,0,0.6); max-width: 550px; padding: 36px 32px; text-align: center; }
+    .card img { width: 100px; margin-bottom: 26px; }
+    .card h2 { color: #ffd194; font-size: 2rem; margin-top: 0; }
+    .card p { color: #ddd; font-size: 1.15rem; margin-bottom: 36px; }
+    .my-button { background: linear-gradient(90deg,#ff7e5f,#feb47b); border: none; color: white; padding: 16px 48px; border-radius: 50px; font-size: 1.2rem; cursor: pointer; font-weight: 700; }
+    .my-button:hover { background: linear-gradient(90deg,#feb47b,#ff7e5f); transform: scale(1.05); }
+    footer { background: rgba(255,255,255,0.08); padding: 24px 0; text-align: center; color: #ffcc99; }
+    /* Modal */
+    .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .modal-content { background-color: #1e1e2f; padding: 30px; border-radius: 18px; width: 90%; max-width: 400px; animation: fadeIn 0.4s ease; }
+    .modal-content h3 { color: #ffcc70; text-align: center; margin-top: 0; }
+    .modal-content input { width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 8px; font-size: 1rem; }
+    .modal-content button { width: 100%; padding: 14px; border: none; border-radius: 8px; background: linear-gradient(90deg,#ff7e5f,#feb47b); color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+    .close { float: right; font-size: 1.5rem; color: #aaa; cursor: pointer; }
+    .close:hover { color: white; }
+    @keyframes fadeIn { from {opacity: 0; transform: translateY(-10px);} to {opacity: 1; transform: translateY(0);} }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🚀 Mars Travel Mission 2025</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Mission Details</a>
+      <a href="#">Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <img src="https://img.icons8.com/fluency/96/000000/rocket.png" alt="Rocket Icon" />
+      <h2>Join the Mission to Mars</h2>
+      <p>Be part of history as humanity prepares for the greatest journey ever. Our Mars Travel Program offers astronaut training, zero-gravity simulations, and a once-in-a-lifetime ticket to the Red Planet.</p>
+      <button class="my-button" id="openForm">Sign Up Now</button>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Mars Travel Program. All rights reserved.
+  </footer>
+
+  <!-- Modal Form -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h3>Sign Up for Mars Mission</h3>
+      <input type="text" id="userName" placeholder="Your Name" required />
+      <input type="email" id="userEmail" placeholder="Your Email ID" required />
+      <button type="submit" onclick="submitForm()">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("signupModal");
+    const openForm = document.getElementById("openForm");
+    const closeBtn = document.getElementById("closeModal");
+
+    openForm.onclick = () => modal.style.display = "flex";
+    closeBtn.onclick = () => modal.style.display = "none";
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
+    function submitForm() {
+      const name = document.getElementById("userName").value.trim();
+      const email = document.getElementById("userEmail").value.trim();
+
+      console.log("Sending email to:", email); // Debug
+
+      if (!name || !email) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      // Match the template variable {{email}} from your EmailJS template
+      emailjs.send("service_l1z3ck7", "template_3jejxqr", {
+        to_name: name,  // if you have {{to_name}} in template
+        email: email    // MUST match {{email}}
+      })
+      .then(() => {
+        alert("✅ Thank you email sent successfully to " + email);
+        modal.style.display = "none";
+        document.getElementById("userName").value = "";
+        document.getElementById("userEmail").value = "";
+      })
+      .catch((error) => {
+        alert("❌ Failed to send email: " + JSON.stringify(error));
+      });
+    }
+  </script>
+
+</body>
+</html>
